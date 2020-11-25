@@ -39,6 +39,13 @@ void loop()
     delay(100);
   }
 
+  for (uint8_t i = 8; i > 0 ; i--)
+  {
+    max7219.PrintItos(i, 87654321);
+    delay(200);
+    max7219.Clean();  
+  }
+  
   max7219.Clean();
   delay(1000);
 }
