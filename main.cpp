@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include "max7219.h"
 
+// 15 - GPIO15 (CS), 8 - number of digits, 5 - intensivity (brightness)
 Max7219 max7219 = Max7219(15, 8, 5);
 
 /* ESP32 SPI
@@ -12,7 +13,6 @@ Max7219 max7219 = Max7219(15, 8, 5);
 
 void setup() 
 {
-  Serial.begin(115200);
   SPI.begin(18, 21, 23);
   max7219.Begin();
 }
@@ -20,6 +20,7 @@ void setup()
 void loop() 
 {
   max7219.DecodeOn();
+  max7219.SetIntensivity(5);
   
   max7219.PrintNtos(max7219.DIGIT_7, 1234, 6);
   delay(1000);
@@ -39,6 +40,18 @@ void loop()
     delay(100);
   }
 
+  for (uint8_t i = 0x0F; i > 0x00; i--)
+  {
+    max7219.SetIntensivity(i);
+    delay(100);
+  }
+  
+  for (uint8_t i = 0; i < 0x0F; i++)
+  {
+    max7219.SetIntensivity(i);
+    delay(100);
+  }
+  
   for (uint8_t i = 8; i > 0 ; i--)
   {
     max7219.PrintItos(i, 87654321);
